@@ -59,16 +59,24 @@ void recvWithStartEndMarkers() {
 
 void showColors() {
   if (newData == true) {
-    // Get rid of '#' and convert it to integer
-    long number = strtol( &receivedChars[1], NULL, 16);
+    if (receivedChars == "#rainbow") {
+      newData = false;
+      rainbow(50);
+    } else if (receivedChars == "#cycle") {
+      newData = false;
+      rainbowCycle(20);
+    } else {
+      // Get rid of '#' and convert it to integer
+      long number = strtol( &receivedChars[1], NULL, 16);
 
-    // Split them up into r, g, b values
-    long red = number >> 16;
-    long green = number >> 8 & 0xFF;
-    long blue = number & 0xFF;
+      // Split them up into r, g, b values
+      long red = number >> 16;
+      long green = number >> 8 & 0xFF;
+      long blue = number & 0xFF;
 
-    colorWipe(strip.Color(pgm_read_byte(&gamma8[red]), pgm_read_byte(&gamma8[green]), pgm_read_byte(&gamma8[blue])), 50);
-    newData = false;
+      colorWipe(strip.Color(pgm_read_byte(&gamma8[red]), pgm_read_byte(&gamma8[green]), pgm_read_byte(&gamma8[blue])), 50);
+      newData = false;
+    }
   }
 }
 
@@ -79,6 +87,52 @@ void colorWipe(uint32_t c, uint8_t wait) {
     strip.show();
     delay(wait);
   }
+}
+
+void rainbow(uint8_t wait) {
+  uint16_t i, j;
+  while (newData == false) {
+    for (j = 0; j < 256; j++) {
+      for (i = 0; i < strip.numPixels(); i++) {
+        strip.setPixelColor(i, Wheel((i + j) & 255));
+      }
+      strip.show();
+      recvWithStartEndMarkers();
+      if (newData == true) break;
+      delay(wait);
+    }
+  }
+}
+
+// Slightly different, this makes the rainbow equally distributed throughout
+void rainbowCycle(uint8_t wait) {
+  uint16_t i, j;
+  while (newData == false) {
+    for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
+      for (i = 0; i < strip.numPixels(); i++) {
+        strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+      }
+      strip.show();
+      recvWithStartEndMarkers();
+      if (newData == true) break;
+      delay(wait);
+    }
+  }
+}
+
+// Input a value 0 to 255 to get a color value.
+// The colours are a transition r - g - b - back to r.
+uint32_t Wheel(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if (WheelPos < 85) {
+    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if (WheelPos < 170) {
+    WheelPos -= 85;
+    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
 // Gamma correction
