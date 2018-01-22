@@ -9,7 +9,6 @@ class Arduino_neopixelPlugin(octoprint.plugin.StartupPlugin,
                              octoprint.plugin.SettingsPlugin,
                              octoprint.plugin.TemplatePlugin,
                              octoprint.plugin.EventHandlerPlugin,
-                             #octoprint.plugin.AssetPlugin,
                              octoprint.plugin.BlueprintPlugin):
 
         def __init__(self):
@@ -58,12 +57,6 @@ class Arduino_neopixelPlugin(octoprint.plugin.StartupPlugin,
 			dict(type="tab", custom_bindings=False),
 		]
 
-	##~~ AssetPlugin
-	#def get_assets(self):
-	#	return dict(
-	#		js=["js/jscolor.js"],
-	#	)
-
 	##~~ EventHandlerPlugin
 	def on_event(self, event, payload):
 		if self.is_connected == True:
@@ -109,4 +102,3 @@ def __plugin_load__():
 	__plugin_hooks__ = {
 		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
 	}
-
