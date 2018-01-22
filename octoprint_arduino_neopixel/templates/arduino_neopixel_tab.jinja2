@@ -1,0 +1,61 @@
+<script>
+    function sendGetRequest(url) {
+        url = url.replace('#', '');
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/plugin/arduino_neopixel/" + url + "/", true);
+        xhttp.send();
+    }
+
+    function setColor(color) {
+        sendGetRequest(color);
+        document.getElementById("colorPicker").value = color;
+        document.getElementById("invalidColor").innerHTML = "";
+    }
+
+    function setCustomColor() {
+        var color = document.getElementById("colorPicker").value
+        var isOk = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)
+        if (isOk === true) {
+            document.getElementById("invalidColor").innerHTML = "";
+            sendGetRequest(color);
+        } else {
+            document.getElementById("invalidColor").innerHTML = "Not a valid HTML color code";
+        }
+    }
+</script>
+
+<div style="padding:5px;" data-bind="visible: loginState.isUser">
+    <h1>Arduino NeoPixel Controls</h1>
+    <h4>Colors</h4>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" onclick="setColor('#FF0000');">Red</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#FFA500');">Orange</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#FFFF00');">Yellow</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#00FF00');">Green</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#0000FF');">Blue</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#4B0082');">Indigo</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#EE82EE');">Violet</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#FFFFFF');">White</button>
+        <button type="button" class="btn btn-primary" onclick="setColor('#000000');">Off</button>
+    </div>
+    <p>
+        <br>
+    </p>
+    <h4>Animated</h4>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" onclick="sendGetRequest('rainbow');">Rainbow</button>
+        <button type="button" class="btn btn-primary" onclick="sendGetRequest('cycle');">Rainbow Cycle</button>
+    </div>
+    <p>
+        <br>
+    </p>
+    <h4>Custom Color</h4>
+    <div>
+        <input type="color" id="colorPicker" onkeydown="if (event.keyCode == 13) document.getElementById('setColorButton').click()">
+        <p></p>
+        <button type="button" class="btn btn-primary" id="setColorButton" onclick="setCustomColor();">Set color</button>
+        <span class="text-warning" id="invalidColor"></span>
+        <p class="muted">
+            <br>If you're using Safari or IE, you don't get a color picker. However you can still enter HTML color codes in the text box.</p>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+include README.md
+recursive-include octoprint_arduino_neopixel/templates *
+recursive-include octoprint_arduino_neopixel/translations *
+recursive-include octoprint_arduino_neopixel/static *
