@@ -1,61 +1,97 @@
 <script>
-    function sendGetRequest(url) {
-        url = url.replace('#', '');
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/plugin/arduino_neopixel/" + url + "/", true);
-        xhttp.send();
-    }
-
-    function setColor(color) {
-        sendGetRequest(color);
-        document.getElementById("colorPicker").value = color;
-        document.getElementById("invalidColor").innerHTML = "";
-    }
-
-    function setCustomColor() {
-        var color = document.getElementById("colorPicker").value
-        var isOk = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)
-        if (isOk === true) {
-            document.getElementById("invalidColor").innerHTML = "";
-            sendGetRequest(color);
-        } else {
-            document.getElementById("invalidColor").innerHTML = "Not a valid HTML color code";
+var isConnected = false;
+function checkArduino(url = "status") {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "True") {
+        isConnected = true;
+        document.getElementById("arduinoDisconnected").style.display = "none";
+        document.getElementById("colorPicker").disabled = false;
+        document.getElementById("setColorButton").disabled = false;
+        var allElements  = document.getElementById("colorButtons").elements;
+        for (var i = 0, l = allElements.length; i < l; ++i) {
+          allElements[i].disabled=true;
         }
+      } else {
+        isConnected = false;
+        document.getElementById("arduinoDisconnected").style.display = "inline";
+        document.getElementById("colorPicker").disabled = true;
+        document.getElementById("setColorButton").disabled = true;
+        document.getElementById("colorPicker").value = "#000000";
+        var allElements  = document.getElementById("colorButtons").elements;
+        for (var i = 0, l = allElements.length; i < l; ++i) {
+          allElements[i].disabled=true;
+        }
+      }
     }
+  };
+  xhttp.open("GET", "/plugin/arduino_neopixel/" + url + "/", true);
+  xhttp.send();
+}
+
+function sendGetRequest(url) {
+  checkArduino();
+  if (isConnected = true) {
+    url = url.replace('#', '');
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "/plugin/arduino_neopixel/" + url + "/", true);
+    xhttp.send();
+  }
+}
+function setColor(color) {
+  sendGetRequest(color);
+  document.getElementById("colorPicker").value = color;
+  document.getElementById("invalidColor").innerHTML = "";
+}
+
+function setCustomColor() {
+  var color = document.getElementById("colorPicker").value
+  var isOk = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)
+  if (isOk === true) {
+    document.getElementById("invalidColor").innerHTML = "";
+    sendGetRequest(color);
+  } else {
+    document.getElementById("invalidColor").innerHTML = "Not a valid HTML color code";
+  }
+}
 </script>
 
-<div style="padding:5px;" data-bind="visible: loginState.isUser">
-    <h1>Arduino NeoPixel Controls</h1>
+<div onload="checkArduino()">
+  <h1>Arduino NeoPixel Controls</h1>
+  <div id="arduinoDisconnected" style="display:none;">
+    <h3 style="color:red;">Arduino not connected</h3>
+    <button type="button" class="btn btn-warning" onclick="checkArduino('reconnect')">Try to reconnect</button>
+    <p class="muted">If the above button doesn't work, try rebooting.</p>
+  </div>
+  <div id="colorButtons">
     <h4>Colors</h4>
     <div class="btn-group">
-        <button type="button" class="btn btn-primary" onclick="setColor('#FF0000');">Red</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#FFA500');">Orange</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#FFFF00');">Yellow</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#00FF00');">Green</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#0000FF');">Blue</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#4B0082');">Indigo</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#EE82EE');">Violet</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#FFFFFF');">White</button>
-        <button type="button" class="btn btn-primary" onclick="setColor('#000000');">Off</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#FF0000');">Red</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#FFA500');">Orange</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#FFFF00');">Yellow</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#00FF00');">Green</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#0000FF');">Blue</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#4B0082');">Indigo</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#EE82EE');">Violet</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#FFFFFF');">White</button>
+      <button type="button" class="btn btn-primary" onclick="setColor('#000000');">Off</button>
     </div>
-    <p>
-        <br>
-    </p>
+    <br>
     <h4>Animated</h4>
     <div class="btn-group">
-        <button type="button" class="btn btn-primary" onclick="sendGetRequest('rainbow');">Rainbow</button>
-        <button type="button" class="btn btn-primary" onclick="sendGetRequest('cycle');">Rainbow Cycle</button>
+      <button type="button" class="btn btn-primary" onclick="sendGetRequest('rainbow');">Rainbow</button>
+      <button type="button" class="btn btn-primary" onclick="sendGetRequest('cycle');">Rainbow Cycle</button>
     </div>
-    <p>
-        <br>
-    </p>
-    <h4>Custom Color</h4>
-    <div>
-        <input type="color" id="colorPicker" onkeydown="if (event.keyCode == 13) document.getElementById('setColorButton').click()">
-        <p></p>
-        <button type="button" class="btn btn-primary" id="setColorButton" onclick="setCustomColor();">Set color</button>
-        <span class="text-warning" id="invalidColor"></span>
-        <p class="muted">
-            <br>If you're using Safari or IE, you don't get a color picker. However you can still enter HTML color codes in the text box.</p>
-    </div>
+  </div>
+  <br>
+  <h4>Custom Color</h4>
+  <div>
+    <input type="color" id="colorPicker" onkeydown="if (event.keyCode == 13) document.getElementById('setColorButton').click()">
+    <p></p>
+    <button type="button" id="setColorButton" class="btn btn-primary" onclick="setCustomColor();">Set color</button>
+    <span class="text-warning" id="invalidColor"></span>
+    <br>
+    <p class="muted">If you're using Safari or IE, you don't get a color picker. However you can still enter HTML color codes in the text box.</p>
+  </div>
 </div>

@@ -1,167 +1,167 @@
 <style>
-    /* Popup container - can be anything you want */
+/* Popup container - can be anything you want */
 
-    .popup {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-    /* The actual popup */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* The actual popup */
 
-    .popup .popuptext {
-        visibility: hidden;
-        width: 160px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 8px 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -80px;
-    }
-    /* Popup arrow */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+/* Popup arrow */
 
-    .popup .popuptext::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #555 transparent transparent transparent;
-    }
-    /* Toggle this class - hide and show the popup */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+/* Toggle this class - hide and show the popup */
 
-    .popup .show {
-        visibility: visible;
-        -webkit-animation: fadeIn 1s;
-        animation: fadeIn 1s;
-    }
-    /* Add animation (fade in the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+/* Add animation (fade in the popup) */
 
-    @-webkit-keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 </style>
 
 <script>
-    function checkValue(elementId) {
-        var color = document.getElementById(elementId).value
-        var isOk = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)
-        if (isOk === true) {
-            document.getElementById(elementId + "Popup").classList.remove("show")
-        } else {
-            document.getElementById(elementId + "Popup").classList.add("show")
-        }
-    }
+function checkValue(elementId) {
+  var color = document.getElementById(elementId).value
+  var isOk = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)
+  if (isOk === true) {
+    document.getElementById(elementId + "Popup").classList.remove("show")
+  } else {
+    document.getElementById(elementId + "Popup").classList.add("show")
+  }
+}
 </script>
 
 <h4>Arduino NeoPixel Settings</h4>
 <form class="form-horizontal">
-    <div class="form-group">
-        <label class="control-label col-sm-2">Printer connected: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="Connected" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.Connected">
-            <span class="popuptext" id="ConnectedPopup">Not a valid HTML color code</span>
-        </div>
+  <div class="form-group">
+    <br>
+    <label class="control-label col-sm-2">Printer connected: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="Connected" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.Connected">
+      <span class="popuptext" id="ConnectedPopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Printer disconnected: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="Disconnected" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.Disconnected">
-            <span class="popuptext" id="DisconnectedPopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Printer disconnected: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="Disconnected" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.Disconnected">
+      <span class="popuptext" id="DisconnectedPopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Print started: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="PrintStarted" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintStarted">
-            <span class="popuptext" id="PrintStartedPopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Print started: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="PrintStarted" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintStarted">
+      <span class="popuptext" id="PrintStartedPopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Print failed: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="PrintFailed" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintFailed">
-            <span class="popuptext" id="PrintFailedPopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Print failed: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="PrintFailed" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintFailed">
+      <span class="popuptext" id="PrintFailedPopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Print done: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="PrintDone" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintDone">
-            <span class="popuptext" id="PrintDonePopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Print done: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="PrintDone" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintDone">
+      <span class="popuptext" id="PrintDonePopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Print cancelled: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="PrintCancelled" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintCancelled">
-            <span class="popuptext" id="PrintCancelledPopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Print cancelled: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="PrintCancelled" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintCancelled">
+      <span class="popuptext" id="PrintCancelledPopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Print paused: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="PrintPaused" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintPaused">
-            <span class="popuptext" id="PrintPausedPopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Print paused: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="PrintPaused" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintPaused">
+      <span class="popuptext" id="PrintPausedPopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Print resumed: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="PrintResumed" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintResumed">
-            <span class="popuptext" id="PrintResumedPopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Print resumed: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="PrintResumed" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.PrintResumed">
+      <span class="popuptext" id="PrintResumedPopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Axis homed: &emsp;</label>
-        <div class="col-sm-10 popup">
-            <input type="color" class="form-control" id="Home" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.Home">
-            <span class="popuptext" id="HomePopup">Not a valid HTML color code</span>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Axis homed: &emsp;</label>
+    <div class="col-sm-10 popup">
+      <input type="color" class="form-control" id="Home" onkeyup="checkValue(this.id)" data-bind="value: settings.plugins.arduino_neopixel.Home">
+      <span class="popuptext" id="HomePopup">Not a valid HTML color code</span>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Arduino Port: &emsp;</label>
-        <div class="col-sm-10">
-            <select class="form-control" data-bind="options: serial_portOptions, value: settings.plugins.arduino_neopixel.Port"></select>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Arduino Port: &emsp;</label>
+    <div class="col-sm-10">
+      <select class="form-control" data-bind="options: serial_portOptions, value: settings.plugins.arduino_neopixel.Port"></select>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2">Arduino baud rate: &emsp;</label>
-        <div class="col-sm-10">
-            <select class="form-control" data-bind="value: settings.plugins.arduino_neopixel.BaudRate">
-                <option>115200</option>
-                <option>57600</option>
-                <option>38400</option>
-                <option>19200</option>
-                <option>9600</option>
-                <option>4800</option>
-            </select>
-        </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Arduino baud rate: &emsp;</label>
+    <div class="col-sm-10">
+      <select class="form-control" data-bind="value: settings.plugins.arduino_neopixel.BaudRate">
+        <option>115200</option>
+        <option>57600</option>
+        <option>38400</option>
+        <option>19200</option>
+        <option>9600</option>
+        <option>4800</option>
+      </select>
     </div>
-    <p class="muted">
-        <br>If you're using Safari or IE, you don't get a color picker. However you can still enter HTML color codes in the text box.</p>
+  </div>
+  <p class="muted">To update the port list, refresh the page. If you're using Safari or IE, you don't get a color picker. However you can still enter HTML color codes in the text box.</p>
 </form>

@@ -59,10 +59,10 @@ void recvWithStartEndMarkers() {
 
 void showColors() {
   if (newData == true) {
-    if (receivedChars == "#rainbow") {
+    if (String(receivedChars) == "#rainbow") {
       newData = false;
       rainbow(50);
-    } else if (receivedChars == "#cycle") {
+    } else if (String(receivedChars) == "#cycle") {
       newData = false;
       rainbowCycle(20);
     } else {
