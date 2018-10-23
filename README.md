@@ -8,7 +8,7 @@ Control a NeoPixel strand from Arduino for OctoPrint.
 Install via the bundled [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager)
 or manually through pip using this URL:
 
-    https://github.com/mhar9000/OctoPrint-Arduino-NeoPixel/archive/master.zip
+    https://github.com/MattElekHarris/OctoPrint-Arduino-NeoPixel/archive/master.zip
 
 Note: This plugin isn't yet registered in the OctoPrint plugin manager, but it should be registered soon.
 
