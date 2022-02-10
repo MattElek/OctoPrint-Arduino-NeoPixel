@@ -124,12 +124,12 @@ class Arduino_neopixelPlugin(octoprint.plugin.StartupPlugin,
 
                 # version check: github repository
                 type="github_release",
-                user="MattElekHarris",
+                user="MattElek",
                 repo="OctoPrint-Arduino-NeoPixel",
                 current=self._plugin_version,
 
                 # update method: pip
-                pip="https://github.com/MattElekHarris/OctoPrint-Arduino-NeoPixel/archive/{target_version}.zip"
+                pip="https://github.com/MattElek/OctoPrint-Arduino-NeoPixel/archive/{target_version}.zip"
             )
         )
 
